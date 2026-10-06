@@ -262,3 +262,22 @@ SELECT
 FROM commande;
 
 >>>>>>> d9e5dd7e7e0a4be27a80f4c69174dc41bdb43ffb
+
+
+-- D. Synthèse mensuelle
+
+CREATE TABLE synthese_mensuelle AS
+SELECT
+    DATE_FORMAT(c.date_commande, '%Y-%m') AS mois,
+    COUNT(DISTINCT c.id) AS nombre_commandes,
+    SUM(lc.quantite * lc.prix_unitaire) AS chiffre_affaires,
+    ROUND(
+        SUM(lc.quantite * lc.prix_unitaire) / COUNT(DISTINCT c.id),
+        2
+    ) AS panier_moyen
+FROM commandes c
+JOIN lignes_commande lc
+    ON c.id = lc.commande_id
+WHERE c.statut <> 'annulée'
+GROUP BY DATE_FORMAT(c.date_commande, '%Y-%m')
+ORDER BY mois;
