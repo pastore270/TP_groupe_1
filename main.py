@@ -27,6 +27,8 @@ def main():
     print("Insertion des données...")
     execute_sql_file("sql/seed_ecommerce.sql")
     print("Base de données initialisée avec succès.")
+    execute_sql_file("sql/analysis.sql")
+    print("Base de données analysée avec succès.")
 
 
 if __name__ == "__main__":

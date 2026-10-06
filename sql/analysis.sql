@@ -32,7 +32,7 @@ FROM ligne_commande AS lc
 JOIN produit AS p
     ON p.id = lc.produit_id
 ORDER BY lc.commande_id, lc.id;
---5.1 Toutes les commandes, y compris les commandes annulées
+--5.1 Toutes les commandes
 SELECT
     c.id AS commande_id,
     c.date_commande,
@@ -46,7 +46,7 @@ GROUP BY
     c.date_commande,
     c.statut
 ORDER BY c.date_commande, c.id;
---5.2 Version défensive avec LEFT JOIN
+--5.2 Version avec LEFT JOIN
 SELECT
     c.id AS commande_id,
     c.date_commande,
@@ -65,10 +65,44 @@ JOIN ligne_commande AS lc ON lc.commande_id = c.id
 JOIN produit AS p ON p.id = lc.produit_id
 WHERE c.statut <> 'annulée'
 GROUP BY p.categorie ORDER BY chiffre_affaires DESC;
+-- exo 7 les 10 produits les plus vendus
+SELECT
+    p.id AS produit_id,
+    p.nom AS produit,
+    p.categorie,
+    SUM(lc.quantite) AS quantite_totale_vendue
+FROM produit AS p
+JOIN ligne_commande AS lc ON lc.produit_id = p.id
+JOIN commande AS c ON c.id = lc.commande_id
+WHERE c.statut <> 'annulée'
+GROUP BY p.id, p.nom, p.categorie
+ORDER BY quantite_totale_vendue DESC, p.nom
+LIMIT 10;
 
+<<<<<<< HEAD
 -- Exercice 8 — Produits générant le plus de chiffre d'affaires
 SELECT produit.nom, produit.categorie, SUM(ligne_commande.quantite * ligne_commande.prix_unitaire) AS CA
 FROM produit
 JOIN ligne_commande ON produit.id = ligne_commande.produit_id
 GROUP BY produit.nom, produit.categorie
 ORDER BY CA DESC;
+=======
+
+
+
+
+
+
+--Exercice-9 Client 
+SELECT 
+    c.id,
+    c.nom,
+    c.prenom,
+    COUNT(DISTINCT cmd.id) AS nb_commandes,
+    COALESCE(SUM(lc.quantite * lc.prix_unitaire), 0) AS total_depense,
+    (COUNT(cmd.id) = 0) AS jamais_commande
+FROM client c
+LEFT JOIN commande cmd ON c.id = cmd.client_id
+LEFT JOIN ligne_commande lc ON cmd.id = lc.commande_id
+GROUP BY c.id;
+>>>>>>> b35902b1c04922bd877ef011c5c0b2a25254b290
