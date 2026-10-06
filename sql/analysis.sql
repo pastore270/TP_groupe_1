@@ -105,4 +105,24 @@ FROM client c
 LEFT JOIN commande cmd ON c.id = cmd.client_id
 LEFT JOIN ligne_commande lc ON cmd.id = lc.commande_id
 GROUP BY c.id;
+<<<<<<< HEAD
 >>>>>>> b35902b1c04922bd877ef011c5c0b2a25254b290
+=======
+
+
+--Exercice-10 Panier Moyen
+--Plateforme 
+SELECT 
+    ROUND(SUM(lc.quantite * lc.prix_unitaire) / COUNT(DISTINCT c.id), 2) AS panier_moyen
+FROM commande c
+JOIN ligne_commande lc ON c.id = lc.commande_id;
+
+--Mensuel 
+SELECT 
+    COALESCE(TO_CHAR(c.date_commande, 'YYYY-MM'), 'GLOBAL') AS periode,
+    ROUND(SUM(lc.quantite * lc.prix_unitaire) / COUNT(DISTINCT c.id), 2) AS panier_moyen
+FROM commande c
+JOIN ligne_commande lc ON c.id = lc.commande_id
+GROUP BY ROLLUP(TO_CHAR(c.date_commande, 'YYYY-MM'))
+ORDER BY periode;
+>>>>>>> b24b6f5cd825c23a481acab9938340539e9aab43
