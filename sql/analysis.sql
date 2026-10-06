@@ -196,4 +196,69 @@ FROM produit pr
 LEFT JOIN ligne_commande lico
     ON pr.id = lico.produit_id
 WHERE lico.produit_id IS NULL;
+<<<<<<< HEAD
 >>>>>>> 6758406301bcef84d286718f246bedbce0e3c684
+=======
+
+
+
+
+
+--Exercice-15 Indicateur Clé 
+--Nombre de ligne a chque table
+SELECT 'client' AS table_name, COUNT(*) AS nb_lignes FROM client
+UNION                                                                  
+SELECT 'produit', COUNT(*) FROM produit
+UNION    
+SELECT 'commande', COUNT(*) FROM commande
+UNION                                               
+SELECT 'ligne_commande', COUNT(*) FROM ligne_commande;
+
+
+--Colones et type de données 
+SELECT table_name, column_name, data_type
+FROM information_schema.columns
+WHERE table_schema = 'public'
+ORDER BY table_name;
+
+
+--B.1 analyse commerciale en une seule requete 
+WITH montant_commandes AS (
+    SELECT
+        c.id AS commande_id,
+        c.client_id,
+        c.statut,
+        SUM(lc.quantite * lc.prix_unitaire) AS montant_commande
+    FROM commande AS c
+    JOIN ligne_commande AS lc
+        ON lc.commande_id = c.id
+    GROUP BY
+        c.id,
+        c.client_id,
+        c.statut
+)
+SELECT
+    ROUND(SUM(montant_commande), 2)
+        AS chiffre_affaires_total,
+    COUNT(*) AS nombre_commandes,
+    ROUND(AVG(montant_commande), 2)
+        AS panier_moyen,
+    COUNT(DISTINCT client_id)
+        AS nombre_clients_actifs
+FROM montant_commandes
+WHERE statut <> 'annulée';
+
+--B.2 Taux annulation des commandes
+SELECT
+    COUNT(*) AS nombre_total_commandes,
+    COUNT(*) FILTER (
+        WHERE statut = 'annulée'
+    ) AS nombre_commandes_annulees,
+    ROUND(
+        100.0 * COUNT(*) FILTER (WHERE statut = 'annulée')
+        / NULLIF(COUNT(*), 0),
+        2
+    ) AS taux_annulation_pourcentage
+FROM commande;
+
+>>>>>>> d9e5dd7e7e0a4be27a80f4c69174dc41bdb43ffb
