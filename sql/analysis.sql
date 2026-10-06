@@ -281,3 +281,69 @@ JOIN lignes_commande lc
 WHERE c.statut <> 'annulée'
 GROUP BY DATE_FORMAT(c.date_commande, '%Y-%m')
 ORDER BY mois;
+
+
+
+--Partie 7
+
+-- 1) Quel est le prix moyen payé par catégorie ?
+
+--Certaines catégorie sont-elles plus attractive que d'autres
+
+--Pour réaliser cette analyse, on aurait besoin de la table produit et de la table ligne_commande
+
+SELECT
+pr.categorie,
+ROUND(AVG(lico.prix_unitaire), 2) AS prix_moyen_paye
+FROM produit pr
+JOIN ligne_commande lico
+ON pr.id = lico.produit_id
+GROUP BY pr.categorie
+ORDER BY prix_moyen_paye DESC;
+
+--Certaines catégories on des produits plus cher que d'autres tandis que certaines catégorie vendent plus de produits.
+
+--Cela permet à l'entreprise de prioriser les catégories les plus rentables.
+
+
+-- 2) Quels clients commandent le plus souvent ?
+
+--Pour réaliser cette analyse il nous faut le table client ainsi que la table commande.
+
+SELECT
+cl.id,
+cl.nom,
+cl.prenom,
+COUNT(co.id) AS nombre_commandes
+FROM client cl
+LEFT JOIN commande co
+ON cl.id = co.client_id
+GROUP BY cl.id, cl.nom, cl.prenom
+ORDER BY nombre_commandes DESC;
+
+--On observe qu'il y a des clients beaucoup plus actif que d'autres, on peut faire trois catégorie de clients :
+--clients actif, client occasionnels et première commande.
+
+--Cela peut permettre à l'entreprise de mettre en place un programme de fidélité ou de faire des promotions pours les premières commande ou clients peu actif pour les insister à consommer.
+
+
+-- 1)Quels produits sont le plus souvent commandés ensemble ?
+
+--Pour cette analyse on aurait besoin de la table ligne_commande et produit.
+
+SELECT
+    p1.nom AS produit_1,
+    p2.nom AS produit_2,
+    COUNT(*) AS nombre_associations
+FROM ligne_commande lico1
+JOIN ligne_commande lico2
+    ON lico1.commande_id = lico2.commande_id
+    AND lico1.produit_id < lico2.produit_id
+JOIN produit p1
+    ON lico1.produit_id = p1.id
+JOIN produit p2
+    ON lico2.produit_id = p2.id
+GROUP BY p1.nom, p2.nom
+ORDER BY nombre_associations DESC; 	
+
+--Cela permet à l'entreprise de crée des packages deal et optimiser les recommandations du site
