@@ -66,3 +66,22 @@ JOIN produit AS p ON p.id = lc.produit_id
 WHERE c.statut <> 'annulée'
 GROUP BY p.categorie ORDER BY chiffre_affaires DESC;
 
+
+
+
+
+
+
+
+--Exercice-9 Client 
+SELECT 
+    c.id,
+    c.nom,
+    c.prenom,
+    COUNT(DISTINCT cmd.id) AS nb_commandes,
+    COALESCE(SUM(lc.quantite * lc.prix_unitaire), 0) AS total_depense,
+    (COUNT(cmd.id) = 0) AS jamais_commande
+FROM client c
+LEFT JOIN commande cmd ON c.id = cmd.client_id
+LEFT JOIN ligne_commande lc ON cmd.id = lc.commande_id
+GROUP BY c.id;
