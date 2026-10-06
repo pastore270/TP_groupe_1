@@ -66,3 +66,9 @@ JOIN produit AS p ON p.id = lc.produit_id
 WHERE c.statut <> 'annulée'
 GROUP BY p.categorie ORDER BY chiffre_affaires DESC;
 
+-- Exercice 8 — Produits générant le plus de chiffre d'affaires
+SELECT produit.nom, produit.categorie, SUM(ligne_commande.quantite * ligne_commande.prix_unitaire) AS CA
+FROM produit
+JOIN ligne_commande ON produit.id = ligne_commande.produit_id
+GROUP BY produit.nom, produit.categorie
+ORDER BY CA DESC;
