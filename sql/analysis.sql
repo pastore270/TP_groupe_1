@@ -80,6 +80,7 @@ ORDER BY quantite_totale_vendue DESC, p.nom
 LIMIT 10;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 -- Exercice 8 — Produits générant le plus de chiffre d'affaires
 SELECT produit.nom, produit.categorie, SUM(ligne_commande.quantite * ligne_commande.prix_unitaire) AS CA
 FROM produit
@@ -93,6 +94,8 @@ ORDER BY CA DESC;
 
 
 
+=======
+>>>>>>> 6758406301bcef84d286718f246bedbce0e3c684
 --Exercice-9 Client 
 SELECT 
     c.id,
@@ -125,4 +128,72 @@ FROM commande c
 JOIN ligne_commande lc ON c.id = lc.commande_id
 GROUP BY ROLLUP(TO_CHAR(c.date_commande, 'YYYY-MM'))
 ORDER BY periode;
+<<<<<<< HEAD
 >>>>>>> b24b6f5cd825c23a481acab9938340539e9aab43
+=======
+
+--Exercice-11 Catégoriser les commandes
+
+SELECT
+    co.id AS id_commande,
+    SUM(lico.quantite * lico.prix_unitaire) AS montant_total,
+
+    CASE
+        WHEN SUM(lico.quantite * lico.prix_unitaire) < 500
+            THEN 'Petit panier'
+
+        WHEN SUM(lico.quantite * lico.prix_unitaire) < 1500
+            THEN 'Panier moyen'
+
+        ELSE 'Gros panier'
+    END AS categorie
+
+FROM commande co
+JOIN ligne_commande lico
+    ON co.id = lico.commande_id
+
+GROUP BY co.id
+ORDER BY montant_total;
+
+--Exercice-12 Analyse temporelle
+SELECT
+    EXTRACT(MONTH FROM co.date_commande) AS mois,
+    SUM(lico.quantite * lico.prix_unitaire) AS chiffre_affaires
+FROM commande co
+JOIN ligne_commande lico
+    ON co.id = lico.commande_id
+GROUP BY EXTRACT(MONTH FROM co.date_commande)
+ORDER BY mois;
+
+--Exercice-13 Détecter une incohérence
+
+SELECT
+    co.id AS id_commande,
+    cl.id AS id_client,
+    co.date_commande,
+    cl.date_inscription
+FROM commande co
+JOIN client cl
+    ON co.client_id = cl.id
+WHERE co.date_commande < cl.date_inscription;
+
+SELECT
+    COUNT(*) AS nombre_anomalies
+FROM commande co
+JOIN client cl
+    ON co.client_id = cl.id
+WHERE co.date_commande < cl.date_inscription;
+
+--Exercice-14 Produits sans vente
+
+SELECT
+    pr.id,
+    pr.nom,
+    pr.categorie,
+    pr.prix,
+    pr.stock
+FROM produit pr
+LEFT JOIN ligne_commande lico
+    ON pr.id = lico.produit_id
+WHERE lico.produit_id IS NULL;
+>>>>>>> 6758406301bcef84d286718f246bedbce0e3c684
