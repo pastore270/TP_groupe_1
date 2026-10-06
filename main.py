@@ -25,30 +25,8 @@ def main():
     print("Création des tables :")
     execute_sql_file("sql/create_schema.sql")
     print("Insertion des données...")
-    execute_sql_file("sql/seed.sql")
+    execute_sql_file("sql/seed_ecommerce.sql")
     print("Base de données initialisée avec succès.")
-
-    try:
-
-        connection = get_connection()
-
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) FROM proprietaire;")
-            print("Propriétaires :", cursor.fetchone()[0])
-
-            cursor.execute("SELECT COUNT(*) FROM logement;")
-            print("Logements :", cursor.fetchone()[0])
-
-            cursor.execute("SELECT COUNT(*) FROM locataire;")
-            print("Locataires :", cursor.fetchone()[0])
-
-            cursor.execute("SELECT COUNT(*) FROM location;")
-            print("Locations :", cursor.fetchone()[0])
-
-        connection.close()
-
-    except Exception as e:
-        print(f"Erreur lors de la vérification : {e}")
 
 
 if __name__ == "__main__":
