@@ -173,3 +173,24 @@ FROM produit pr
 LEFT JOIN ligne_commande lico
     ON pr.id = lico.produit_id
 WHERE lico.produit_id IS NULL;
+
+
+
+
+
+--Exercice-15 Indicateur Clé 
+--Nombre de ligne a chque table
+SELECT 'client' AS table_name, COUNT(*) AS nb_lignes FROM client
+UNION                                                                  
+SELECT 'produit', COUNT(*) FROM produit
+UNION    
+SELECT 'commande', COUNT(*) FROM commande
+UNION                                               
+SELECT 'ligne_commande', COUNT(*) FROM ligne_commande;
+
+
+--Colones et type de données 
+SELECT table_name, column_name, data_type
+FROM information_schema.columns
+WHERE table_schema = 'public'
+ORDER BY table_name;
