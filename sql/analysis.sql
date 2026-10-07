@@ -270,6 +270,19 @@ FROM commande;
 
 >>>>>>> d9e5dd7e7e0a4be27a80f4c69174dc41bdb43ffb
 
+-- C 
+
+SELECT 
+    client.nom,
+    client.prenom,
+    SUM(ligne_commande.quantite * ligne_commande.prix_unitaire) AS CA
+FROM client
+JOIN commande ON client.id = commande.client_id
+JOIN ligne_commande ON commande.id = ligne_commande.commande_id
+GROUP BY client.nom, client.prenom
+ORDER BY CA DESC
+LIMIT 10;
+
 
 -- D. Synthèse mensuelle
 
