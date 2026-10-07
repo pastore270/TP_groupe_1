@@ -222,6 +222,13 @@ WHERE table_schema = 'public'
 ORDER BY table_name;
 
 
+--Valeurs éventuellement manquantes
+SELECT * FROM client WHERE NOT (client IS NOT NULL);
+SELECT * FROM produit WHERE NOT (produit IS NOT NULL);
+SELECT * FROM commande WHERE NOT (commande IS NOT NULL);
+SELECT * FROM ligne_commande WHERE NOT (ligne_commande IS NOT NULL);
+
+
 --B.1 analyse commerciale en une seule requete 
 WITH montant_commandes AS (
     SELECT
