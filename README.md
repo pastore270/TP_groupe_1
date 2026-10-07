@@ -141,5 +141,5 @@ Licence
 Projet pédagogique.
 
 Auteurs : GROUPE 1
-Benjamin, Mohamed, Mehdi, Steven, Dioman et Houcham
-Projet réalisé dans le cadre d'un travail d'équipe sur l'analyse de données et la gestion SQL.
+Benjamin DUPILLE, Mohamed-Amine PEROUZE, Mehdi SATOURI, Steven HONG, Dioman DIAKITE et Houcham MAMA GAO
+Projet réalisé dans le cadre d'un travail de groupe sur l'analyse de données et le cours de base de données relationnelles.
