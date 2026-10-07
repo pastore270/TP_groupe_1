@@ -13,20 +13,20 @@ L'objectif principal est de :
 
 Structure du projet
 
-TP_groupe/
-├── .env.example
-├── main.py
-├── pyproject.toml
-├── src/
-│ └── database.py
-├── sql/
-│ ├── create_schema.sql
-│ ├── seed_ecommerce.sql
-│ └── analysis.sql
-├── utils/
-│ └── execute_sql_file.py
-├── README.md
-└── uv.lock
+TP_groupe/ </br>
+├── .env.example </br>
+├── main.py</br>
+├── pyproject.toml</br>
+├── src/</br>
+│ └── database.py</br>
+├── sql/</br>
+│ ├── create_schema.sql</br>
+│ ├── seed_ecommerce.sql</br>
+│ └── analysis.sql</br>
+├── utils/</br>
+│ └── execute_sql_file.py</br>
+├── README.md</br>
+└── uv.lock</br>
 
 Base de données
 
@@ -42,7 +42,7 @@ Les scripts SQL permettent de :
 1. supprimer et recréer les tables ;
 2. charger des données de test ;
 3. lancer des analyses de ventes et de comportement client.
-Prérequis
+   Prérequis
 
 - Python 3.13+
 - PostgreSQL installé et démarré
@@ -141,5 +141,5 @@ Licence
 Projet pédagogique.
 
 Auteurs : GROUPE 1
-Benjamin, Mohamed, Mehdi, Steven, Dioman et Houcham
-Projet réalisé dans le cadre d'un travail d'équipe sur l'analyse de données et la gestion SQL.
+Benjamin DUPILLE, Mohamed-Amine PEROUZE, Mehdi SATOURI, Steven HONG, Dioman DIAKITE et Houcham MAMA GAO
+Projet réalisé dans le cadre d'un travail de groupe sur l'analyse de données et le cours de base de données relationnelles.
